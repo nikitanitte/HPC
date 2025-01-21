@@ -6,7 +6,6 @@ int main() {
  double prices[NUM_SECTIONS][NUM_ITEMS];
  double totals[NUM_SECTIONS] = {0.0};
  double final_total = 0.0;
- // Prompt user for prices in each section
  const char *sections[NUM_SECTIONS] = {"Clothing", "Gaming", "Grocery", "Stationery"};
  for (int i = 0; i < NUM_SECTIONS; i++) {
  printf("Enter prices for %s (5 items):\n", sections[i]);
@@ -15,18 +14,15 @@ int main() {
  scanf("%lf", &prices[i][j]);
  }
  }
- // Calculate the total for each section in parallel
  #pragma omp parallel for
  for (int i = 0; i < NUM_SECTIONS; i++) {
  for (int j = 0; j < NUM_ITEMS; j++) {
  totals[i] += prices[i][j];
  }
  }
- // Calculate the final total
  for (int i = 0; i < NUM_SECTIONS; i++) {
  final_total += totals[i];
  }
- // Display the totals
  printf("\nTotals for each section:\n");
  for (int i = 0; i < NUM_SECTIONS; i++) {
  printf("%s: $%.2f\n", sections[i], totals[i]);
